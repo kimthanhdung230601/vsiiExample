@@ -1,22 +1,16 @@
-import { useState } from 'react';
-import Button from './button';
-import Home from './Home';
-import ButtonAdd from './buttonAdd';
+import { Button } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+const fnc = () => {
+  return 5;
+};
 const Layout = () => {
-  const [value, setValue] = useState(1);
-  const handleSetValue = (value: number) => {
-    setValue(value + 1);
-    console.log('value', value);
-  };
-  const handleSubstract = (value: number) => {
-    setValue(value - 1);
-  };
+  const navigate = useNavigate();
   return (
     <>
-      <Home value={value} />
-      <Button value={value} setSubtractValue={handleSubstract} />
-      <ButtonAdd value={value} setAddValue={handleSetValue} />
+      <Button onClick={() => navigate('/cau1')}>Câu 1</Button>
+      <Button onClick={() => navigate('/cau2')}>Câu 2</Button>
     </>
   );
 };

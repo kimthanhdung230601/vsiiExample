@@ -5,7 +5,6 @@ interface ButtonAddProps {
 }
 
 const ButtonAdd = ({ value, setAddValue }: ButtonAddProps) => {
-  console.log('button add component');
   return (
     <>
       <button onClick={() => setAddValue(value)} className={styles.wrapper}>

@@ -4,8 +4,6 @@ interface buttonProp {
   setSubtractValue: (value: number) => void;
 }
 const Button = ({ value, setSubtractValue }: buttonProp) => {
-  console.log('button subtract component');
-
   return (
     <>
       <button
