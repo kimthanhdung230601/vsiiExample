@@ -1,0 +1,21 @@
+.wrapper {
+  padding: 20vh 75vh;
+  .container {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 3vh;
+  }
+}
+.input {
+  border: 1px dashed #1976d2;
+  padding: 18px;
+  border-radius: 8px;
+  color: #1976d2;
+}
+input[type='file'] {
+  /* Tùy chỉnh kiểu file input */
+  border: 1px dashed #1976d2;
+  padding: 18px;
+  border-radius: 8px;
+  color: #1976d2;
+}
