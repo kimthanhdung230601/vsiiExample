@@ -1,13 +1,10 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
-import { Alert, Container, Snackbar } from '@mui/material';
 import { useState } from 'react';
+import Button from '@mui/material/Button';
+import { Container, Snackbar } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
-import { styled } from '@mui/material/styles';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { styled } from '@mui/material/styles';
 import { MAX_FILE_SIZE, TYPE_FILE } from './untils';
 
 const VisuallyHiddenInput = styled('input')({
@@ -21,30 +18,56 @@ const VisuallyHiddenInput = styled('input')({
   whiteSpace: 'nowrap',
   width: 1
 });
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {
-    children: React.ReactElement<any, any>;
-  },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
-export default function FormAfterImg() {
+interface ImageUploadFormProps {
+  label: string;
+  inputName: string;
+  alertMessage: string;
+}
+
+const FormImg = ({ label, inputName, alertMessage }: ImageUploadFormProps) => {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors }
   } = useForm();
-  //form1
+
   const onSubmit = (data: any) => {
     console.log(data);
-    alert('Cập nhật thành công');
+    alert(alertMessage);
   };
+
   const [imagePreview, setImagePreview] = useState<string>('');
+  const [validate, setValidate] = useState<string>('');
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const validateImage = (value: FileList) => {
+    const file = value[0];
+    if (!file) {
+      setValidate('Vui lòng chọn một file ảnh');
+      setOpen(true);
+      return false;
+    }
+    if (!TYPE_FILE.exec(file.name)) {
+      setValidate('Ảnh không đúng định dạng');
+      setOpen(true);
+      return false;
+    }
+    if (file.size > MAX_FILE_SIZE) {
+      setValidate('Kích thước ảnh không được vượt quá 2MB');
+      setOpen(true);
+      return false;
+    }
+    return true;
+  };
+
   const handleImageChange = (e: any) => {
-    const file = e.target.files?.[0];
+    const file: any = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -52,38 +75,6 @@ export default function FormAfterImg() {
       };
       reader.readAsDataURL(file);
     }
-  };
-
-  //validate
-  const [validate, setValidate] = useState<any>('');
-  const [open, setOpen] = useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const validateImage = (value: FileList) => {
-    const file = value[0];
-    if (!file) {
-      // Không có file
-      setValidate('Vui lòng chọn một file ảnh');
-      setOpen(true);
-      return false;
-    }
-    if (!TYPE_FILE.exec(file.name)) {
-      // Định dạng không đúng
-      setValidate('Ảnh không đúng định dạng');
-      setOpen(true);
-      return false;
-    }
-
-    if (file.size > MAX_FILE_SIZE) {
-      // Kích thước quá lớn
-      setOpen(true);
-      setValidate('Kích thước ảnh không được vượt quá 2MB');
-      return false;
-    }
-
-    // Hợp lệ
-    return true;
   };
 
   return (
@@ -94,8 +85,8 @@ export default function FormAfterImg() {
         </Button>
         <Controller
           control={control}
-          name="afterImg"
-          render={({ field: { onChange, onBlur, value } }) => (
+          name={inputName}
+          render={({ field }) => (
             <Button
               className="w-full h-full"
               component="label"
@@ -111,23 +102,26 @@ export default function FormAfterImg() {
               }
             >
               <VisuallyHiddenInput
-                id="afterImg"
+                id={inputName}
                 type="file"
-                {...register('afterImg', {
+                {...register(inputName, {
                   validate: validateImage
                 })}
-                onChange={handleImageChange}
+                onChange={(e) => {
+                  handleImageChange(e);
+                  field.onChange(e);
+                }}
                 accept="image/*"
-              />{' '}
-              CCCD MẶT TRƯỚC
+              />
+              {label}
             </Button>
           )}
         />
         <div>
-          {imagePreview && !errors.image && (
+          {imagePreview && !errors[inputName] && (
             <img src={imagePreview} alt="NoImage" style={{ width: '100%' }} />
           )}
-          {errors.afterImg && (
+          {errors[inputName] && (
             <Snackbar
               anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
               open={open}
@@ -140,4 +134,6 @@ export default function FormAfterImg() {
       </form>
     </Container>
   );
-}
+};
+
+export default FormImg;

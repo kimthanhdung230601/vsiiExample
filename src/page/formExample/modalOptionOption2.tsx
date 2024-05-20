@@ -11,7 +11,6 @@ import { useState } from 'react';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { Controller, useForm } from 'react-hook-form';
 import { MAX_FILE_SIZE, TYPE_FILE } from './untils';
-import styles from './styles.module.scss';
 import { styled } from '@mui/material/styles';
 
 const VisuallyHiddenInput = styled('input')({
@@ -152,6 +151,15 @@ export default function OptionOneComponent2({ open, handleClose }: ModalProp) {
                       </Button>
                     )}
                   />
+                  {errors.beforeImg && (
+                    <Snackbar
+                      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                      open={openSnackbar}
+                      message={validate}
+                      autoHideDuration={3000}
+                      onClose={handleCloseSnackbar}
+                    />
+                  )}
                 </Grid>
                 <Grid item xs={6}>
                   {' '}
@@ -197,10 +205,7 @@ export default function OptionOneComponent2({ open, handleClose }: ModalProp) {
                         alt="NoImage"
                         style={{ width: '100%' }}
                       />
-                    )}{' '}
-                    {/* {errors.beforeImg && (
-                      <Alert severity="warning">{validate}</Alert>
-                    )} */}
+                    )}
                   </Grid>
                   <Grid item xs={6}>
                     {imagePreview1 && !errors.image && (

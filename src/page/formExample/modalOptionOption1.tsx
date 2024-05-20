@@ -7,11 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { Grid } from '@mui/material';
-import { useState } from 'react';
-
-import { Controller, useForm } from 'react-hook-form';
-import FormBeforeImg from './modalOption1Form1';
-import FormAfterImg from './modalOption1Form2';
+import FormImg from './modalOption1Form2';
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
@@ -41,10 +37,18 @@ export default function OptionOneComponent1({ open, handleClose }: ModalProp) {
         <DialogContent>
           <Grid container spacing={2} style={{ marginTop: '1rem' }}>
             <Grid item xs={6}>
-              <FormBeforeImg />
+              <FormImg
+                label="CCCD MẶT SAU"
+                inputName="beforeImg"
+                alertMessage="Cập nhật thành công"
+              />
             </Grid>
             <Grid item xs={6}>
-              <FormAfterImg />
+              <FormImg
+                label="CCCD MẶT TRƯỚC"
+                inputName="afterImg"
+                alertMessage="Cập nhật thành công"
+              />
             </Grid>
           </Grid>
         </DialogContent>

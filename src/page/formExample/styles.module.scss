@@ -19,3 +19,15 @@ input[type='file'] {
   border-radius: 8px;
   color: #1976d2;
 }
+.button {
+  margin-left: 3vh;
+  border: 1px #1976d2 dashed;
+  text-align: center;
+  justify-content: center;
+}
+.wrapperCenter {
+  text-align: center;
+  padding: 0 4vh;
+  .card {
+  }
+}

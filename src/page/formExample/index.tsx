@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import { useState } from 'react';
 import OptionOneComponent1 from './modalOptionOption1';
 import OptionOneComponent2 from './modalOptionOption2';
-interface FormExampleProps {}
+import { useNavigate } from 'react-router-dom';
 
 const FormExample = () => {
   //option1
@@ -22,6 +22,7 @@ const FormExample = () => {
   const handleClose2 = () => {
     setOpen2(false);
   };
+  const navigate = useNavigate();
   return (
     <>
       <div className={styles.wrapper}>
@@ -32,6 +33,9 @@ const FormExample = () => {
           </Button>
           <Button variant="contained" onClick={handleClickOpen2}>
             OPTION 2
+          </Button>
+          <Button variant="contained" onClick={() => navigate('/listImage')}>
+            OPTION 3
           </Button>
         </div>
       </div>
