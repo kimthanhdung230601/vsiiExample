@@ -1,25 +1,25 @@
+import React from 'react';
 import { TextField, Button } from '@mui/material';
 import styles from './styles.module.scss';
 import { Controller, useForm } from 'react-hook-form';
 
 interface FormData {
-  name?: string;
-  age?: string;
-  gmail?: string;
+  name: string;
+  age: string;
+  gmail: string;
 }
 
 const FormDataTest = () => {
   const {
-    register,
     handleSubmit,
     control,
+    reset,
     formState: { errors }
   } = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {
-    console.log(data);
     alert(
-      ` Thông tin đăng ký bao gồm: Họ tên: ${data.name}, Tuổi: ${data.age}, Gmail:${data.gmail}`
+      `Thông tin đăng ký bao gồm: Họ tên: ${data.name}, Tuổi: ${data.age}, Gmail:${data.gmail}`
     );
   };
 
@@ -29,17 +29,19 @@ const FormDataTest = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div style={{ marginBottom: '3vh', width: '100%' }}>
           <Controller
-            control={control}
             name="name"
+            control={control}
+            defaultValue=""
             rules={{ required: 'Yêu cầu nhập tên' }}
             render={({ field }) => (
               <TextField
                 id="name"
-                label="*Họ tên"
+                label="Họ tên"
                 variant="outlined"
                 className={styles.inputForm}
-                {...register('name')}
-                helperText={errors.name ? <p>{errors.name.message}</p> : ''}
+                {...field}
+                error={!!errors.name}
+                helperText={errors.name ? errors.name.message : ''}
               />
             )}
           />
@@ -47,8 +49,9 @@ const FormDataTest = () => {
 
         <div style={{ marginBottom: '3vh' }}>
           <Controller
-            control={control}
             name="age"
+            control={control}
+            defaultValue=""
             rules={{
               required: 'Yêu cầu nhập tuổi',
               min: { value: 18, message: 'Tuổi từ 18' },
@@ -61,11 +64,12 @@ const FormDataTest = () => {
             render={({ field }) => (
               <TextField
                 id="age"
-                label="* Tuổi"
+                label="Tuổi"
                 variant="outlined"
                 className={styles.inputForm}
-                {...register('age')}
-                helperText={errors.age ? <p>{errors.age.message}</p> : ''}
+                {...field}
+                error={!!errors.age}
+                helperText={errors.age ? errors.age.message : ''}
               />
             )}
           />
@@ -73,8 +77,9 @@ const FormDataTest = () => {
 
         <div style={{ marginBottom: '3vh' }}>
           <Controller
-            control={control}
             name="gmail"
+            control={control}
+            defaultValue=""
             rules={{
               required: 'Yêu cầu nhập gmail',
               pattern: {
@@ -85,11 +90,12 @@ const FormDataTest = () => {
             render={({ field }) => (
               <TextField
                 id="gmail"
-                label="* Gmail"
+                label="Gmail"
                 variant="outlined"
                 className={styles.inputForm}
-                {...register('gmail')}
-                helperText={errors.gmail ? <p>{errors.gmail.message}</p> : ''}
+                {...field}
+                error={!!errors.gmail}
+                helperText={errors.gmail ? errors.gmail.message : ''}
               />
             )}
           />
@@ -97,6 +103,9 @@ const FormDataTest = () => {
 
         <Button type="submit" variant="contained" color="primary">
           Submit
+        </Button>
+        <Button onClick={() => reset()} variant="contained" color="secondary">
+          RESET
         </Button>
       </form>
     </div>
