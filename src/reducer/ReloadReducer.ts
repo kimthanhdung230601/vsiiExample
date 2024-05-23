@@ -1,29 +1,27 @@
 const initialState = {
-  loadCount: 0,
-  players: [{ id: '1', name: 'Linh Anh Trần' }] // Thêm mảng để lưu trữ thông tin của các cầu thủ
+  loading: false,
+  data: [],
+  error: null
 };
 
 const ReloadReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case 'ADD_PLAYER':
+    case 'FETCH_DATA_REQUEST':
       return {
         ...state,
-        players: [...state.players, action.payload] // Sử dụng action.payload thay vì action.player
+        loading: true
       };
-    case 'UPDATE_PLAYER':
+    case 'FETCH_DATA_SUCCESS':
       return {
         ...state,
-        players: state.players.map(
-          (player: any) =>
-            player.id === action.payload.id ? action.payload : player // Sử dụng action.payload thay vì action.player
-        )
+        loading: false,
+        data: action.payload
       };
-    case 'DELETE_PLAYER':
+    case 'FETCH_DATA_FAILURE':
       return {
         ...state,
-        players: state.players.filter(
-          (player: any) => player.id !== action.payload.playerId // Sử dụng action.payload.playerId thay vì action.playerId
-        )
+        loading: false,
+        error: action.payload
       };
     default:
       return state;

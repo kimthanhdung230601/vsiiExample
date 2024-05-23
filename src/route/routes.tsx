@@ -1,11 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
-import ReduxExample from '../page/redux';
+import ReduxTest from '../page/redux/testRedux';
 
 const RouteProp = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<ReduxExample />} />
+        <Route path="/" element={<ReduxTest />} />
       </Routes>
     </>
   );
